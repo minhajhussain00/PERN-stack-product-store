@@ -3,6 +3,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
+import { sql } from "./config/db.js";
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,25 @@ app.get("/",(req,res)=>{
     res.send("Hello World");
 });
 
-app.listen(PORT,()=>{
+async function initDB(){
+    try{
+        await sql`
+        CREATE TABLE IF NOT EXISTS products (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            image VARCHAR(255) NOT NULL,
+            description TEXT NOT NULL,
+            price DECIMAL(10, 2) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )`
+    } catch (error) {
+        console.error("Error initializing database:", error);
+    }
+}
+
+
+initDB().then(() => {
+    app.listen(PORT,()=>{
     console.log(`Server has started on port ${PORT}`);
+})
 })
