@@ -4,7 +4,7 @@ import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
 import { sql } from "./config/db.js";
-
+import productRoutes from "./routes/productsRoutes.js"
 dotenv.config();
 const app = express();
 
@@ -16,10 +16,7 @@ app.use(cors())
 
 const PORT = process.env.PORT || 3000;
 
-app.get("/",(req,res)=>{
-    res.send("Hello World");
-});
-
+app.use("/api/products", productRoutes);
 async function initDB(){
     try{
         await sql`
