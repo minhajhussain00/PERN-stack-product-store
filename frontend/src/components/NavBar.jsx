@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useResolvedPath } from "react-router-dom";
 import { ShoppingBagIcon, ShoppingCartIcon } from "lucide-react";
+import ThemeSelector from './ThemeSelector';
 
 const NavBar = () => {
   const { pathname } = useResolvedPath();
@@ -27,7 +28,7 @@ const NavBar = () => {
           </div>
 
           <div className="flex items-center gap-4">
-
+            <ThemeSelector/>
             {isHomePage && (
               <div className="indicator">
                 <div className="p-2 rounded-full hover:bg-base-200 transition-colors">
